@@ -4524,4 +4524,437 @@ body {
   line-height: 21px;
 }
 
+/* ─────────────────────────────────────────────────────────────
+   MULTI-PET SOCIAL MEDIA & TOWN PETS STRIP STYLES
+───────────────────────────────────────────────────────────── */
+
+/* Header Add Pet Button */
+.figma-add-pet-header-btn {
+  position: absolute;
+  left: 236px;
+  top: 10px;
+  height: 28px;
+  padding: 0 12px;
+  background: #000000;
+  color: #FFFFFF;
+  border: none;
+  border-radius: 9999px;
+  font-family: 'Inter', sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+  transition: all 0.15s ease;
+  z-index: 5;
+}
+
+.figma-add-pet-header-btn:hover {
+  background: #FB604A;
+  transform: translateY(-1px);
+}
+
+/* Header Town Pets Pill Badge */
+.figma-town-badge-btn {
+  position: absolute;
+  left: 88px;
+  top: 12px;
+  height: 24px;
+  padding: 0 9px;
+  background: #FFF1EE;
+  color: #FB604A;
+  border: 1px solid #FFD8D1;
+  border-radius: 9999px;
+  font-family: 'Inter', sans-serif;
+  font-size: 10.5px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  transition: all 0.15s ease;
+  z-index: 5;
+}
+
+.figma-town-badge-btn:hover {
+  background: #FFE4DF;
+}
+
+/* Town Pets Social Stories Strip */
+.figma-town-pets-bar {
+  position: absolute;
+  width: 350px;
+  height: 86px;
+  left: 26px;
+  top: 244px;
+  z-index: 4;
+}
+
+.figma-town-pets-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 7px;
+}
+
+.figma-town-pets-title {
+  font-family: 'Inter', sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  color: #111827;
+  letter-spacing: 0.3px;
+}
+
+.figma-town-pets-count {
+  color: #6B7280;
+  font-weight: 500;
+  font-size: 10.5px;
+}
+
+.figma-town-add-link {
+  background: none;
+  border: none;
+  color: #FB604A;
+  font-family: 'Inter', sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  transition: opacity 0.15s;
+}
+
+.figma-town-add-link:hover {
+  opacity: 0.8;
+  text-decoration: underline;
+}
+
+.figma-town-pets-scroll {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding-bottom: 4px;
+  -webkit-overflow-scrolling: touch;
+}
+
+.figma-town-pets-scroll::-webkit-scrollbar {
+  display: none;
+}
+
+.figma-town-pet-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  cursor: pointer;
+  flex-shrink: 0;
+  width: 54px;
+  transition: transform 0.15s ease;
+}
+
+.figma-town-pet-item:hover {
+  transform: translateY(-2px);
+}
+
+.figma-town-pet-add-circle {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 1.8px dashed #FB604A;
+  background: #FFF7F5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+}
+
+.figma-town-pet-avatar-ring {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  padding: 2px;
+  border: 2px solid #E5E7EB;
+  background: #FFFFFF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  transition: all 0.15s ease;
+}
+
+.figma-town-pet-avatar-ring.active {
+  border-color: #FB604A;
+  box-shadow: 0 0 0 2px rgba(251, 96, 74, 0.25);
+}
+
+.figma-town-pet-avatar-img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+  display: block;
+}
+
+.figma-town-pet-label {
+  font-family: 'Inter', sans-serif;
+  font-size: 10px;
+  color: #4B5563;
+  font-weight: 500;
+  max-width: 54px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  text-align: center;
+}
+
+.figma-town-pet-label.active {
+  color: #FB604A;
+  font-weight: 700;
+}
+
+/* Floating Join / Add Pet Pill for Visitors */
+.figma-floating-join-pill {
+  position: absolute;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 20;
+  background: #111827;
+  color: #FFFFFF;
+  border: 1px solid #374151;
+  border-radius: 9999px;
+  padding: 8px 18px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.4);
+  font-family: 'Inter', sans-serif;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  white-space: nowrap;
+}
+
+.figma-floating-join-pill:hover {
+  background: #000000;
+  transform: translateX(-50%) translateY(-2px);
+  box-shadow: 0 14px 28px -5px rgba(0, 0, 0, 0.5);
+}
+
+/* Town Pets Directory Modal */
+.figma-town-modal-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(2px);
+  z-index: 50;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+
+.figma-town-modal-sheet {
+  width: 100%;
+  max-height: 80%;
+  background: #FFFFFF;
+  border-top-left-radius: 24px;
+  border-top-right-radius: 24px;
+  padding: 20px 20px 30px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  animation: slideUp 0.2s ease-out;
+}
+
+@keyframes slideUp {
+  from { transform: translateY(100%); }
+  to { transform: translateY(0); }
+}
+
+.figma-town-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 4px;
+}
+
+.figma-town-modal-title {
+  font-family: 'Inter', sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  color: #111827;
+}
+
+.figma-town-modal-close {
+  background: none;
+  border: none;
+  font-size: 18px;
+  color: #9CA3AF;
+  cursor: pointer;
+  padding: 4px;
+}
+
+.figma-town-modal-sub {
+  font-family: 'Inter', sans-serif;
+  font-size: 12px;
+  color: #6B7280;
+  margin-bottom: 16px;
+}
+
+.figma-town-modal-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  overflow-y: auto;
+  max-height: 320px;
+  padding-right: 4px;
+  margin-bottom: 16px;
+}
+
+.figma-town-modal-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 12px;
+  border: 1px solid #E5E7EB;
+  border-radius: 12px;
+  background: #F9FAFB;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.figma-town-modal-card:hover {
+  background: #FFF5F3;
+  border-color: #FFD8D1;
+}
+
+.figma-town-modal-card.active {
+  border-color: #FB604A;
+  background: #FFF1EE;
+}
+
+.figma-town-modal-petinfo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.figma-town-modal-petavatar {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1px solid #D1D5DB;
+}
+
+.figma-town-modal-petname {
+  font-family: 'Inter', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  color: #111827;
+}
+
+.figma-town-modal-petspecies {
+  font-family: 'Inter', sans-serif;
+  font-size: 11px;
+  color: #6B7280;
+}
+
+.figma-town-modal-btn {
+  width: 100%;
+  padding: 12px;
+  background: #000000;
+  color: #FFFFFF;
+  border: none;
+  border-radius: 10px;
+  font-family: 'Inter', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  transition: background 0.15s;
+}
+
+.figma-town-modal-btn:hover {
+  background: #FB604A;
+}
+
+/* Register Pet Top Header */
+.figma-details-header {
+  position: absolute;
+  top: 10px;
+  left: 20px;
+  right: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  z-index: 10;
+}
+
+.figma-details-back-btn {
+  background: none;
+  border: none;
+  font-family: 'Inter', sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  color: #111827;
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 6px;
+  background: #EEEEEE;
+}
+
+.figma-details-back-btn:hover {
+  background: #E0E0E0;
+}
+
+.figma-details-title {
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  color: #000000;
+}
+
+.figma-details-tag {
+  font-family: 'Delicious Handrawn', cursive;
+  font-size: 20px;
+  color: #FB604A;
+}
+
+/* QR Code Screen - View Profile Button */
+.figma-rect-profile {
+  box-sizing: border-box;
+  position: absolute;
+  width: 350px;
+  height: 48px;
+  left: 26px;
+  top: 730px;
+  background: #000000;
+  border-radius: 12px;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  gap: 8px;
+  color: #FFFFFF;
+  transition: all 0.15s ease;
+}
+
+.figma-rect-profile:hover {
+  background: #FB604A;
+  transform: translateY(-1px);
+}
+
+
 

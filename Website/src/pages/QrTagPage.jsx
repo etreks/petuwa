@@ -127,6 +127,17 @@ export default function QrTagPage({ onShowToast }) {
         <span className="figma-qr-btn-label">Download</span>
       </button>
 
+      {/* View Pet Profile Button */}
+      <button
+        type="button"
+        className="figma-rect-profile"
+        onClick={() => navigate(`/p/${pet?.id || petId || 'ponya'}`)}
+      >
+        <span className="figma-qr-btn-label" style={{ fontWeight: 700, color: '#FFFFFF' }}>
+          🐾 View {pet?.name || 'Pet'}’s Profile & Feed
+        </span>
+      </button>
+
       {/* Suggestion Text */}
       <div className="figma-qr-suggestion">
         Suggestion: Apply this QR on your pet’s belt

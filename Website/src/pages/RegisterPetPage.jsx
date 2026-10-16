@@ -104,6 +104,20 @@ export default function RegisterPetPage({ onShowToast }) {
 
   return (
     <div className="figma-details-screen">
+      {/* Top Header with Back to Town button */}
+      <div className="figma-details-header">
+        <button
+          type="button"
+          className="figma-details-back-btn"
+          onClick={() => navigate('/p/ponya')}
+          title="Back to Town"
+        >
+          ← Town
+        </button>
+        <span className="figma-details-title">Register Pet Profile</span>
+        <span className="figma-details-tag">PURR</span>
+      </div>
+
       {/* Add image icon */}
       <div className="figma-details-photo-wrap">
         <div

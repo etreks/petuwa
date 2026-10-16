@@ -102,6 +102,59 @@ export default function LoginPage({ onShowToast }) {
           Log in
         </button>
       </div>
+
+      {/* Direct Social Links for Friends & First-Time Users */}
+      <div style={{
+        position: 'absolute',
+        top: '675px',
+        left: '27px',
+        width: '347px',
+        textAlign: 'center',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        gap: '10px'
+      }}>
+        <button
+          type="button"
+          onClick={() => navigate('/register')}
+          style={{
+            background: '#FFFFFF',
+            color: '#000000',
+            border: 'none',
+            borderRadius: '9999px',
+            padding: '11px 22px',
+            fontSize: '12.5px',
+            fontFamily: 'Inter, sans-serif',
+            fontWeight: 700,
+            cursor: 'pointer',
+            boxShadow: '0 4px 14px rgba(0,0,0,0.18)',
+            display: 'inline-flex',
+            alignItems: 'center',
+            gap: '6px',
+            transition: 'transform 0.15s ease'
+          }}
+        >
+          🐾 Register Your Pet Directly
+        </button>
+
+        <button
+          type="button"
+          onClick={() => navigate('/p/ponya')}
+          style={{
+            background: 'none',
+            border: 'none',
+            color: 'rgba(255, 255, 255, 0.95)',
+            fontSize: '12px',
+            fontFamily: 'Inter, sans-serif',
+            fontWeight: 600,
+            textDecoration: 'underline',
+            cursor: 'pointer'
+          }}
+        >
+          Explore Town Pets as Guest →
+        </button>
+      </div>
     </div>
   );
 }

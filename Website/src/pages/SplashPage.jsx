@@ -12,25 +12,25 @@ export default function SplashPage() {
         return `/p/${ownedIds[0]}`;
       }
     } catch {}
-    return '/login';
+    return '/p/ponya';
   };
 
   useEffect(() => {
     const timer = setTimeout(() => {
       navigate(getDestination());
-    }, 2200);
+    }, 2000);
     return () => clearTimeout(timer);
   }, [navigate]);
 
   return (
     <div className="landing-screen" onClick={() => navigate(getDestination())}>
       <div className="landing-content">
-        <h1 className="brand-title-handwritten">PETUWA</h1>
-        <p className="brand-subtitle-landing">Your pet, always findable</p>
+        <h1 className="brand-title-handwritten">PURR</h1>
+        <p className="brand-subtitle-landing">Your Pet’s town</p>
       </div>
       <img
         src="/assets/cat_clean_no_text.png"
-        alt="Petuwa Spotted Cat"
+        alt="Purr Town Cat"
         className="splash-cat-illustration"
       />
     </div>

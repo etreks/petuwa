@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate, useSearchParams } from 'react-router-dom';
 import {
   getPetById,
+  getAllPets,
   cachePet,
   getPostsForPet,
   cachePosts,
@@ -16,6 +17,7 @@ import {
 import NearbyVetsModal from '../components/NearbyVetsModal';
 import NewPostModal from '../components/NewPostModal';
 import {
+  apiGetPets,
   apiGetPetById,
   apiGetPosts,
   apiSendNotification,
@@ -31,6 +33,10 @@ export default function PetProfilePage({ onShowToast }) {
   const [pet, setPet] = useState(() => getPetById(petId || 'ponya'));
   const [posts, setPosts] = useState(() => getPostsForPet(pet?.id || 'ponya'));
   const [isLoading, setIsLoading] = useState(!pet);
+
+  // Community Town Pets state for multi-pet social discovery
+  const [townPets, setTownPets] = useState(() => getAllPets());
+  const [showTownDirectory, setShowTownDirectory] = useState(false);
 
   // Ownership: Only true if this device registered the pet
   const isOwner = isOwnerOfPet(pet?.id);
@@ -48,6 +54,17 @@ export default function PetProfilePage({ onShowToast }) {
   useEffect(() => {
     let isMounted = true;
     const targetId = petId || 'ponya';
+
+    // 0. Fetch all town pets from database for switcher & story strip
+    apiGetPets()
+      .then((dbPets) => {
+        if (!isMounted) return;
+        if (Array.isArray(dbPets) && dbPets.length > 0) {
+          setTownPets(dbPets);
+          dbPets.forEach((p) => cachePet(p));
+        }
+      })
+      .catch(() => {});
 
     // 1. Immediate local cache lookup
     const cachedPet = getPetById(targetId);
@@ -416,7 +433,8 @@ export default function PetProfilePage({ onShowToast }) {
   // 2. MAIN PET PROFILE & COMMUNITY FEED VIEW (100% Figma Spec)
   // Height: 1216px (scrolling inside 874px chassis)
   // ─────────────────────────────────────────────────────────────
-  const calculatedHeight = Math.max(1216, 254 + posts.length * 316 + 50);
+  const townPetsOffset = 88;
+  const calculatedHeight = Math.max(1216, 254 + townPetsOffset + posts.length * 316 + 80);
 
   return (
     <div className="figma-profile-container">
@@ -425,9 +443,33 @@ export default function PetProfilePage({ onShowToast }) {
         style={{ minHeight: `${calculatedHeight}px` }}
       >
         {/* 1. Header: PURR logo at left: 20px, top: 16px, width: 63px */}
-        <h1 className="figma-feed-brand" onClick={() => navigate('/')}>
+        <h1
+          className="figma-feed-brand"
+          onClick={() => setShowTownDirectory(true)}
+          title="Town Pets Directory"
+        >
           PURR
         </h1>
+
+        {/* Town Pets Switcher Pill */}
+        <button
+          type="button"
+          className="figma-town-badge-btn"
+          onClick={() => setShowTownDirectory(true)}
+          title="Explore all pets in town"
+        >
+          🐾 {townPets.length} Town Pets ▾
+        </button>
+
+        {/* Header + Add Pet Button */}
+        <button
+          type="button"
+          className="figma-add-pet-header-btn"
+          onClick={() => navigate('/register')}
+          title="Create a new profile for your pet"
+        >
+          + Add Pet
+        </button>
 
         {/* 2. Header: Plus Button (Screenshot 2026-04-12 at 19.22.45 1) at left: 355px, top: 5px, 41x38 */}
         <button
@@ -497,9 +539,15 @@ export default function PetProfilePage({ onShowToast }) {
           className="figma-feed-avatar"
         />
 
-        {/* 5. @ponya at left: 137px, top: 80px */}
-        <div className="figma-feed-handle">
+        {/* 5. @ponya with switcher trigger at left: 137px, top: 80px */}
+        <div
+          className="figma-feed-handle"
+          onClick={() => setShowTownDirectory(true)}
+          title="Switch pet profile"
+          style={{ cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '3px' }}
+        >
           @{pet.name.toLowerCase().replace(/\s+/g, '')}
+          <span style={{ fontSize: '9px', opacity: 0.65 }}>▾</span>
         </div>
 
         {/* 6. Cat/Feline at left: 137px, top: 98px */}
@@ -554,11 +602,68 @@ export default function PetProfilePage({ onShowToast }) {
         {/* 10. Rectangle 15 (Divider line): 350x2px at left: 26px, top: 239px */}
         <div className="figma-feed-divider-15" />
 
+        {/* 10B. Pets in Town Social Stories Bar */}
+        <div className="figma-town-pets-bar">
+          <div className="figma-town-pets-header">
+            <span className="figma-town-pets-title">
+              Pets in Town <span className="figma-town-pets-count">({townPets.length})</span>
+            </span>
+            <button
+              type="button"
+              className="figma-town-add-link"
+              onClick={() => navigate('/register')}
+            >
+              + Create Pet Profile
+            </button>
+          </div>
+
+          <div className="figma-town-pets-scroll">
+            {/* 1. Add Pet Story Button */}
+            <div
+              className="figma-town-pet-item"
+              onClick={() => navigate('/register')}
+              title="Create new profile for your pet"
+            >
+              <div className="figma-town-pet-add-circle">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#FB604A" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round">
+                  <line x1="12" y1="5" x2="12" y2="19" />
+                  <line x1="5" y1="12" x2="19" y2="12" />
+                </svg>
+              </div>
+              <span className="figma-town-pet-label" style={{ color: '#FB604A', fontWeight: 700 }}>+ Add Pet</span>
+            </div>
+
+            {/* 2. List of all town pets */}
+            {townPets.map((p) => {
+              const isActive = (p.id || '').toLowerCase() === (pet.id || '').toLowerCase();
+              return (
+                <div
+                  key={p.id}
+                  className={`figma-town-pet-item ${isActive ? 'active' : ''}`}
+                  onClick={() => navigate(`/p/${p.id}`)}
+                  title={`View ${p.name}'s profile`}
+                >
+                  <div className={`figma-town-pet-avatar-ring ${isActive ? 'active' : ''}`}>
+                    <img
+                      src={p.photo || '/assets/ponya_avatar.png'}
+                      alt={p.name}
+                      className="figma-town-pet-avatar-img"
+                    />
+                  </div>
+                  <span className={`figma-town-pet-label ${isActive ? 'active' : ''}`}>
+                    {p.name}
+                  </span>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+
         {/* Empty state for pets with 0 posts */}
         {posts.length === 0 && (
           <div style={{
             position: 'absolute',
-            top: '280px',
+            top: `${280 + townPetsOffset}px`,
             left: '26px',
             right: '26px',
             textAlign: 'center',
@@ -595,12 +700,13 @@ export default function PetProfilePage({ onShowToast }) {
 
         {/* 11. Feed Posts matching Slide 6 & 7 */}
         {posts.map((post, idx) => {
-          const baseTop = idx === 0 ? 254 : idx === 1 ? 570 : idx === 2 ? 884 : 254 + idx * 316;
-          const authorTop = idx === 0 ? 259 : idx === 1 ? 575 : idx === 2 ? 889 : baseTop + 5;
-          const moreTop = idx === 0 ? 254 : idx === 1 ? 568 : idx === 2 ? 882 : baseTop;
-          const imgTop = idx === 0 ? 278 : idx === 1 ? 594 : idx === 2 ? 908 : baseTop + 24;
-          const captionTop = idx === 0 ? 522 : idx === 1 ? 838 : idx === 2 ? 1152 : baseTop + 268;
-          const timeTop = idx === 0 ? 536 : idx === 1 ? 852 : idx === 2 ? 1166 : baseTop + 282;
+          const rawTop = idx === 0 ? 254 : idx === 1 ? 570 : idx === 2 ? 884 : 254 + idx * 316;
+          const baseTop = rawTop + townPetsOffset;
+          const authorTop = idx === 0 ? 259 + townPetsOffset : idx === 1 ? 575 + townPetsOffset : idx === 2 ? 889 + townPetsOffset : baseTop + 5;
+          const moreTop = idx === 0 ? 254 + townPetsOffset : idx === 1 ? 568 + townPetsOffset : idx === 2 ? 882 + townPetsOffset : baseTop;
+          const imgTop = idx === 0 ? 278 + townPetsOffset : idx === 1 ? 594 + townPetsOffset : idx === 2 ? 908 + townPetsOffset : baseTop + 24;
+          const captionTop = idx === 0 ? 522 + townPetsOffset : idx === 1 ? 838 + townPetsOffset : idx === 2 ? 1152 + townPetsOffset : baseTop + 268;
+          const timeTop = idx === 0 ? 536 + townPetsOffset : idx === 1 ? 852 + townPetsOffset : idx === 2 ? 1166 + townPetsOffset : baseTop + 282;
 
           const authorLeft = idx === 0 ? '36px' : idx === 1 ? '32px' : '31px';
           const captionLeft = idx === 0 ? '35px' : idx === 1 ? '32px' : '31px';
@@ -699,6 +805,18 @@ export default function PetProfilePage({ onShowToast }) {
           );
         })}
 
+        {/* Floating Join / Add Pet Pill for Visitors */}
+        {!isOwner && (
+          <div
+            className="figma-floating-join-pill"
+            onClick={() => navigate('/register')}
+            title="Create a profile for your pet"
+          >
+            <span>🐾 Have a pet?</span>
+            <span style={{ color: '#FB604A', fontWeight: 700 }}>Create Profile →</span>
+          </div>
+        )}
+
         {/* Floating Emergency Actions Overlay (Slide 12 - only when Missing) */}
         {pet.status === 'Missing' && (
           <div className="petuwa-floating-overlay">
@@ -726,6 +844,73 @@ export default function PetProfilePage({ onShowToast }) {
           </div>
         )}
       </div>
+
+      {/* Town Pets Directory Modal */}
+      {showTownDirectory && (
+        <div className="figma-town-modal-overlay" onClick={() => setShowTownDirectory(false)}>
+          <div className="figma-town-modal-sheet" onClick={(e) => e.stopPropagation()}>
+            <div className="figma-town-modal-header">
+              <h3 className="figma-town-modal-title">Pets in Purr Town 🐾</h3>
+              <button
+                type="button"
+                className="figma-town-modal-close"
+                onClick={() => setShowTownDirectory(false)}
+              >
+                ✕
+              </button>
+            </div>
+            <p className="figma-town-modal-sub">
+              Select a pet to view their profile, or register your own!
+            </p>
+
+            <div className="figma-town-modal-list">
+              {townPets.map((p) => {
+                const isActive = (p.id || '').toLowerCase() === (pet.id || '').toLowerCase();
+                return (
+                  <div
+                    key={p.id}
+                    className={`figma-town-modal-card ${isActive ? 'active' : ''}`}
+                    onClick={() => {
+                      setShowTownDirectory(false);
+                      navigate(`/p/${p.id}`);
+                    }}
+                  >
+                    <div className="figma-town-modal-petinfo">
+                      <img
+                        src={p.photo || '/assets/ponya_avatar.png'}
+                        alt={p.name}
+                        className="figma-town-modal-petavatar"
+                      />
+                      <div>
+                        <div className="figma-town-modal-petname">
+                          {p.name} {isActive && '(Current)'}
+                        </div>
+                        <div className="figma-town-modal-petspecies">
+                          {p.species || 'Cat'} • {p.ownerName ? `Owner: ${p.ownerName}` : 'Purr Town'}
+                        </div>
+                      </div>
+                    </div>
+                    <span style={{ fontSize: '11px', color: '#FB604A', fontWeight: 600 }}>
+                      View →
+                    </span>
+                  </div>
+                );
+              })}
+            </div>
+
+            <button
+              type="button"
+              className="figma-town-modal-btn"
+              onClick={() => {
+                setShowTownDirectory(false);
+                navigate('/register');
+              }}
+            >
+              🐾 Register a New Pet Profile
+            </button>
+          </div>
+        </div>
+      )}
 
       {/* Emergency Nearby Vets Modal */}
       {showVetsModal && (
