@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { apiVerifyOtp, apiSendOtp } from '../services/api';
-import { setCurrentUser, getPets } from '../services/storage';
+import { setCurrentUser, getOwnedPets } from '../services/storage';
 
 export default function OtpPage({ onShowToast }) {
   const navigate = useNavigate();
@@ -45,9 +45,9 @@ export default function OtpPage({ onShowToast }) {
           loggedAt: new Date().toISOString()
         });
 
-        const existing = getPets();
-        if (existing.length > 0) {
-          navigate(`/p/${existing[0].id}`);
+        const owned = getOwnedPets();
+        if (owned.length > 0) {
+          navigate(`/p/${owned[0].id}`);
         } else {
           navigate('/register');
         }

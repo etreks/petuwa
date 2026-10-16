@@ -4078,6 +4078,45 @@ body {
   padding: 4px;
 }
 
+/* Plus button action popup */
+.figma-plus-popup {
+  position: absolute;
+  top: 48px;
+  right: 16px;
+  background: #FFFFFF;
+  border: 1px solid #E5E7EB;
+  border-radius: 12px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+  z-index: 100;
+  padding: 6px;
+  min-width: 190px;
+  display: flex;
+  flex-direction: column;
+}
+
+.figma-plus-menu-item {
+  background: transparent;
+  border: none;
+  padding: 10px 14px;
+  font-family: 'Inter', sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  color: #111111;
+  white-space: nowrap;
+  border-radius: 8px;
+  width: 100%;
+  text-align: left;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  box-sizing: border-box;
+}
+
+.figma-plus-menu-item:hover {
+  background: #F3F4F6;
+}
+
 .figma-feed-menu-item {
   background: none;
   border: none;

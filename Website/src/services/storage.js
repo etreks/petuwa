@@ -114,6 +114,18 @@ export function isOwnerOfPet(petId) {
   }
 }
 
+// Get pets owned by current browser session
+export function getOwnedPets() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEYS.OWNED_PETS);
+    const ownedIds = raw ? JSON.parse(raw) : [];
+    const all = getAllPets();
+    return all.filter(p => ownedIds.includes((p.id || '').toLowerCase()));
+  } catch {
+    return [];
+  }
+}
+
 // Mark pet as owned by current device
 export function claimPetOwnership(petId) {
   if (!petId) return;

@@ -42,6 +42,7 @@ export default function PetProfilePage({ onShowToast }) {
   // Modals & Popups state
   const [showVetsModal, setShowVetsModal] = useState(false);
   const [showPostModal, setShowPostModal] = useState(false);
+  const [showPlusMenu, setShowPlusMenu] = useState(false);
   const [activeMenuPostId, setActiveMenuPostId] = useState(null);
 
   useEffect(() => {
@@ -432,8 +433,8 @@ export default function PetProfilePage({ onShowToast }) {
         <button
           type="button"
           className="figma-feed-plus-btn"
-          onClick={() => setShowPostModal(true)}
-          title="Add photo or post"
+          onClick={() => setShowPlusMenu(!showPlusMenu)}
+          title="Add / Register pet"
         >
           <svg
             width="28"
@@ -450,12 +451,48 @@ export default function PetProfilePage({ onShowToast }) {
           </svg>
         </button>
 
+        {/* Plus Action Menu Popup */}
+        {showPlusMenu && (
+          <div className="figma-plus-popup" style={{ top: '48px', right: '16px' }}>
+            <button
+              type="button"
+              className="figma-plus-menu-item"
+              onClick={() => {
+                setShowPlusMenu(false);
+                setShowPostModal(true);
+              }}
+            >
+              📸 Add Post to {pet.name}
+            </button>
+            <button
+              type="button"
+              className="figma-plus-menu-item"
+              onClick={() => {
+                setShowPlusMenu(false);
+                navigate('/register');
+              }}
+            >
+              🐾 Register a New Pet
+            </button>
+            <button
+              type="button"
+              className="figma-plus-menu-item"
+              onClick={() => {
+                setShowPlusMenu(false);
+                navigate(`/qr/${pet.id}`);
+              }}
+            >
+              🏷️ View Collar QR Tag
+            </button>
+          </div>
+        )}
+
         {/* 3. Frame 29 (Avatar box border): 91x110 at left: 26px, top: 77px */}
         <div className="figma-feed-frame-29" />
 
         {/* 4. Avatar photo (Screenshot 2026-04-08 at 20.25.08 1): 74x107 at left: 36px, top: 79px */}
         <img
-          src={(pet.id === 'ponya' || !pet.photo || pet.photo.startsWith('data:')) ? '/assets/ponya_avatar.png' : pet.photo}
+          src={pet.photo || '/assets/ponya_avatar.png'}
           alt={pet.name}
           className="figma-feed-avatar"
         />
