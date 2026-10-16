@@ -395,4 +395,8 @@ function petuwaBackendPlugin() {
 
 export default defineConfig({
   plugins: [react(), petuwaBackendPlugin()],
+  server: {
+    host: true,
+    allowedHosts: true,
+  },
 });
