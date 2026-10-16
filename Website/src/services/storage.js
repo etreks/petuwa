@@ -278,7 +278,7 @@ export function getPostsForPet(petId) {
     const raw = localStorage.getItem(STORAGE_KEYS.POSTS);
     const allPosts = raw ? JSON.parse(raw) : [];
     if (!petId) return allPosts;
-    return allPosts.filter(p => !p.petId || p.petId.toLowerCase() === petId.toLowerCase());
+    return allPosts.filter(p => (p.petId || 'ponya').toLowerCase() === petId.toLowerCase());
   } catch {
     return [];
   }

@@ -554,6 +554,45 @@ export default function PetProfilePage({ onShowToast }) {
         {/* 10. Rectangle 15 (Divider line): 350x2px at left: 26px, top: 239px */}
         <div className="figma-feed-divider-15" />
 
+        {/* Empty state for pets with 0 posts */}
+        {posts.length === 0 && (
+          <div style={{
+            position: 'absolute',
+            top: '280px',
+            left: '26px',
+            right: '26px',
+            textAlign: 'center',
+            padding: '40px 16px',
+            background: '#F9FAFB',
+            borderRadius: '16px',
+            border: '1px dashed #D1D5DB'
+          }}>
+            <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '15px', fontWeight: 600, color: '#111827', margin: '0 0 6px 0' }}>
+              No photos yet of {pet.name} 🐾
+            </p>
+            <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '12px', color: '#6B7280', margin: '0 0 18px 0' }}>
+              Be the first to share a moment or sighting!
+            </p>
+            <button
+              type="button"
+              onClick={() => setShowPostModal(true)}
+              style={{
+                background: '#000000',
+                color: '#FFFFFF',
+                border: 'none',
+                borderRadius: '8px',
+                padding: '9px 20px',
+                fontSize: '12px',
+                fontFamily: 'Inter, sans-serif',
+                fontWeight: 600,
+                cursor: 'pointer'
+              }}
+            >
+              + Add First Photo
+            </button>
+          </div>
+        )}
+
         {/* 11. Feed Posts matching Slide 6 & 7 */}
         {posts.map((post, idx) => {
           const baseTop = idx === 0 ? 254 : idx === 1 ? 570 : idx === 2 ? 884 : 254 + idx * 316;

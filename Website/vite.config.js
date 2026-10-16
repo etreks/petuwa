@@ -346,7 +346,7 @@ function petuwaBackendPlugin() {
             const posts = readJson(postsFile, []);
             res.setHeader('Content-Type', 'application/json');
             if (petId) {
-              const filtered = posts.filter(p => !p.petId || p.petId.toLowerCase() === petId.toLowerCase());
+              const filtered = posts.filter(p => (p.petId || 'ponya').toLowerCase() === petId.toLowerCase());
               return res.end(JSON.stringify(filtered));
             }
             return res.end(JSON.stringify(posts));

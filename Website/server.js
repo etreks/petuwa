@@ -287,7 +287,7 @@ app.get('/api/posts', (req, res) => {
   const posts = readJson(postsFile, 'posts', []);
   const { petId } = req.query;
   if (petId) {
-    const filtered = posts.filter(p => !p.petId || p.petId.toLowerCase() === petId.toLowerCase());
+    const filtered = posts.filter(p => (p.petId || 'ponya').toLowerCase() === petId.toLowerCase());
     return res.json(filtered);
   }
   res.json(posts);
